@@ -26,7 +26,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
 mongoose.connect(
-  process.env.db_connection,
+  process.env.DB_CONNECTION,
   {useNewUrlParser: true},
   () => console.log('connected to db')
 );
