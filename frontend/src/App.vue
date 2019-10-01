@@ -1,20 +1,45 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <div id="app">
+        <NavBar v-bind:title="title"/>
+        <router-view/>
     </div>
-    <router-view/>
-  </div>
 </template>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<script>
+import NavBar from "./components/NavBar";
+export default {
+    components: {
+        NavBar,
+    },
+    data() {
+        return {
+        title: 'meininki',
+        }
+    }
 }
+</script>
+
+
+<style>
+    body {
+        margin: 0;
+        margin-top: 0%;
+        background-color: #333033;
+    }
+
+    .content {
+        background-color: #494649;
+        display:flex;
+        flex-flow: column;
+        height: 100%;
+    }
+
+    @media only screen and (min-width: 1200px) {
+        .content {
+            width: 70vw;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    }
 </style>
