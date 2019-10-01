@@ -4,11 +4,11 @@
             <h1> {{ title }} </h1>
         </div>
         <div id="nav">
-            <router-link to="/">Home</router-link>
-            <router-link to="/about">About</router-link>
-            <router-link to="/">Foo</router-link>
+            <router-link to="/" exact>Home</router-link>
+            <router-link to="/about" exact>About</router-link>
+            <!-- <router-link to="/">Foo</router-link>
             <router-link to="/">Bar</router-link>
-            <router-link to="/">Biz</router-link>
+            <router-link to="/">Biz</router-link> -->
         </div>
     </div>
 </template>
@@ -37,13 +37,15 @@ export default {
 
 .Title {
     display: inline-block;
-    
+    text-overflow: clip;
+    overflow: hidden;
 }
 
 .Title > h1 {
     color: white;
     font-family: 'Bree Serif', serif;
     font-size: 4em;
+    
 }
 
 #nav > a {
@@ -63,7 +65,7 @@ export default {
     
 }
 
-#nav > a:active {
+.router-link-active {
     font-weight: bold;
 }
 
