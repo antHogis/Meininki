@@ -7,6 +7,7 @@ require('dotenv/config');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
+const eventsRouter = require('./routes/events');
 
 const app = express();
 
@@ -15,9 +16,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-//Routes
+//Routes Middleware
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/events', eventsRouter);
 
 mongoose.connect(
   process.env.DB_CONNECTION,
@@ -38,7 +40,7 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.send(`Error: ${res.statusCode}`);
+  res.send(`Error: ${err}`);
 });
 
 module.exports = app;
