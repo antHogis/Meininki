@@ -50,7 +50,7 @@ export default {
 
 #nav > a {
     color: white;
-    padding-right: 2.5vw;
+    padding: 0vw 1.25vw 0vw;
     font-family: 'Rokkitt', serif;
     text-decoration: none;
     line-height: 2em;
