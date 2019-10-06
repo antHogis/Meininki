@@ -69,4 +69,10 @@ export default {
     font-weight: bold;
 }
 
+@media only screen and (max-width: 260px) {
+    .Title > h1 {
+        font-size: 1em;
+    }
+}
+
 </style>
