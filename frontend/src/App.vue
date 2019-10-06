@@ -1,7 +1,7 @@
 <template>
     <div id="app">
         <NavBar v-bind:title="title"/>
-        <router-view/>
+        <router-view class="content"/>
     </div>
 </template>
 
@@ -37,7 +37,6 @@ export default {
     @media only screen and (min-width: 1200px) {
         .content {
             width: 70vw;
-            display: block;
             margin-left: auto;
             margin-right: auto;
         }
