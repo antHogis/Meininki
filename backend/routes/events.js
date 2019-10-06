@@ -2,6 +2,11 @@ const express = require('express');
 const router = express.Router();
 const Event = require('../models/Event');
 
+router.get('/', (req, res) => {
+    Event.find()
+        .then(data => res.json(data));
+})
+
 router.post('/', (req, res) => {
     const rb = req.body;
     const event = new Event({
