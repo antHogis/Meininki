@@ -60,10 +60,12 @@ export default {
     display: inline-block; /* For transform to work */
 }
 
-#nav > a:hover {
-    transform: scale(1.2);
-    
+@media (hover: hover) {
+    #nav > a:hover {
+        transform: scale(1.2);
+    }
 }
+
 
 .router-link-active {
     font-weight: bold;
