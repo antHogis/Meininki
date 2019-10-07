@@ -1,19 +1,29 @@
 <template>
-    <div class="event">
+    <div class="event" v-on:click="routeToEvent">
+        <router-link to="/about" exact>About</router-link>
         <div class="imagePlaceholder"> </div>
+        
         <div class="info">
             <h1> {{ event.title }} </h1>
             <p> {{ event.description }} </p>
+            
         </div>
+        
     </div>
 </template>
 
 <script>
+import router from '../router';
 export default {
     name: 'EventPreview',
     props: {
         event: Object
     },
+    methods: {
+        routeToEvent(){
+            router.push({name:'eventById', params: { id: this.$props.event._id }})
+        }
+    }
 }
 </script>
 
