@@ -1,21 +1,23 @@
 <template>
   <div class="home">
-    <Event v-bind:event="event" />
+    <div ref="events"></div>
   </div>
 </template>
 
 <script>
 import Event from '../components/Event';
+import Vue from 'vue';
 export default {
   name: 'home',
-  components: {
-    Event,
-  },
-  data() {
-    return {
-      event: {title: "Foo", description: "Bar"},
-
-    }
+  async mounted() {
+    const response = await fetch('http://localhost:3000/events');
+    const eventArray = await response.json();
+    eventArray.forEach(eventData => {
+      let EventComponent = Vue.extend(Event);
+      let eventInstance = new EventComponent({propsData: {event: eventData}});
+      eventInstance.$mount();
+      this.$refs.events.appendChild(eventInstance.$el);
+    })
   }
 }
 </script>
