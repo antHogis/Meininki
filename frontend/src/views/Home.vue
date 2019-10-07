@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Event from '../components/Event';
+import EventPreview from '../components/EventPreview';
 import Vue from 'vue';
 export default {
   name: 'home',
@@ -13,7 +13,7 @@ export default {
     const response = await fetch('http://localhost:3000/events');
     const eventArray = await response.json();
     eventArray.forEach(eventData => {
-      let EventComponent = Vue.extend(Event);
+      let EventComponent = Vue.extend(EventPreview);
       let eventInstance = new EventComponent({propsData: {event: eventData}});
       eventInstance.$mount();
       this.$refs.events.appendChild(eventInstance.$el);
