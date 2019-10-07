@@ -3,6 +3,7 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const mongoose = require('mongoose');
+const cors = require('cors');
 require('dotenv/config');
 
 const indexRouter = require('./routes/index');
@@ -11,6 +12,7 @@ const eventsRouter = require('./routes/events');
 
 const app = express();
 
+app.use(cors({origin:'http://localhost:8080'}));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
