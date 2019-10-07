@@ -24,11 +24,10 @@ export default {
     body {
         margin: 0;
         margin-top: 0%;
-        background-color: #333033;
+        background-color: #272527;
     }
 
     .content {
-        background-color: #494649;
         display:flex;
         flex-flow: column;
         height: 100%;
