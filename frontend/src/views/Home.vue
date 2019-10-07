@@ -1,17 +1,29 @@
 <template>
   <div class="home">
-    <h1> Home </h1>
+    <Event v-bind:event="event" />
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-
-
+import Event from '../components/Event';
 export default {
   name: 'home',
   components: {
-    
+    Event,
+  },
+  data() {
+    return {
+      event: {title: "Foo", description: "Bar"},
+
+    }
   }
 }
 </script>
+
+<style scoped>
+h1 {
+  word-wrap: break-word;
+}
+
+
+</style>
