@@ -4,7 +4,7 @@
         <div v-else class="image"> </div>
         
         <div class="info">
-            <h1> {{ event.title }} </h1>
+            <h1> {{ event.title }} {{ simpleDate }}</h1>
             <p> {{ event.description }} </p>
             
         </div>
@@ -18,6 +18,12 @@ export default {
     name: 'EventPreview',
     props: {
         event: Object
+    },
+    data() {
+        let dateObject = new Date(this.event.timeStart);
+        return {
+            simpleDate: dateObject.getDay() + '.' + dateObject.getMonth()
+        }
     },
     methods: {
         routeToEvent(){
