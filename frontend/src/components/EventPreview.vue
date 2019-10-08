@@ -29,7 +29,7 @@ export default {
 <style scoped>
 .event {
     background-color: #413941;
-    margin: 1% 1% 1%;
+    margin: 0.5% 1% 0.25%;
     padding: 1% 1% 1%;
     display: flex;
 
