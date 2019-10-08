@@ -1,23 +1,41 @@
 <template>
   <div class="home">
-    <div ref="events"></div>
+    <div v-if="events" class="content">
+      <div ref="events" v-bind:key="event._id" v-for="event in events">
+        <EventPreview v-bind:event="event" />
+      </div>
+    </div>
+    
   </div>
 </template>
 
 <script>
 import EventPreview from '../components/EventPreview';
-import Vue from 'vue';
+
 export default {
   name: 'home',
-  async mounted() {
-    const response = await fetch('http://localhost:3000/events');
-    const eventArray = await response.json();
-    eventArray.forEach(eventData => {
-      let EventComponent = Vue.extend(EventPreview);
-      let eventInstance = new EventComponent({propsData: {event: eventData}});
-      eventInstance.$mount();
-      this.$refs.events.appendChild(eventInstance.$el);
-    })
+  components: {
+    EventPreview
+  },
+  data() {
+    return {
+      loading: false,
+      error: null,
+      events: null,
+    }
+  },
+  created() {
+    this.fetchEvents();
+  },
+  methods: {
+    fetchEvents() {
+      this.error = this.events = null;
+      this.loading = true;
+      fetch('http://localhost:3000/events')
+        .then(res => res.json())
+        .then(eventData => this.events = eventData)
+        .catch(e => this.error = e);
+    }
   }
 }
 </script>
