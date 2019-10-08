@@ -1,6 +1,5 @@
 <template>
     <div class="event" v-on:click="routeToEvent">
-        <router-link to="/about" exact>About</router-link>
         <div class="imagePlaceholder"> </div>
         
         <div class="info">
