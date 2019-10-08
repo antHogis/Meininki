@@ -1,6 +1,7 @@
 <template>
     <div class="event" v-on:click="routeToEvent">
-        <div class="imagePlaceholder"> </div>
+        <img v-if="event.imageUrl" v-bind:src="event.imageUrl" class="image" />
+        <div v-else class="image"> </div>
         
         <div class="info">
             <h1> {{ event.title }} </h1>
@@ -43,10 +44,11 @@ export default {
     border-color: #807080;
 }
 
-.imagePlaceholder {
+.image {
     background-color: #684c68;
     width: 200px;
     height: 150px;
+    object-fit: cover;
 }
 
 .info {
