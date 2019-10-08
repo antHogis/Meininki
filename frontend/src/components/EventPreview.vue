@@ -39,6 +39,10 @@ export default {
     border-color: #5c515c;
 }
 
+.event:hover {
+    border-color: #807080;
+}
+
 .imagePlaceholder {
     background-color: #684c68;
     width: 200px;
