@@ -9,19 +9,19 @@ const EventSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    /* tags: [String],
+    tags: [String],
     timeStart: {
         type: Date,
         required: true
     },
-    timeBegin: {
+    timeEnd: {
         type: Date,
         required: true
     },
-    image: {
-        type: Buffer,
+    imageUrl: {
+        type: String,
         required: false
-    }, */
+    },
 });
 
 module.exports = mongoose.model('Events', EventSchema);

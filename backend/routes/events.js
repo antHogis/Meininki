@@ -17,12 +17,16 @@ router.post('/', (req, res) => {
   const rb = req.body;
   const event = new Event({
     title: rb.title,
-    description: rb.description
+    description: rb.description,
+    tags: rb.tags,
+    timeStart: new Date(rb.timeStart),
+    timeEnd: new Date(rb.timeEnd),
+    imageUrl: rb.imageUrl
   });
 
   event.save()
     .then(data => res.json(data))
-    .catch(err => res.json({ message: err }));
+    .catch(err => res.status(422).send({ error: err}));
 });
 
 module.exports = router;
