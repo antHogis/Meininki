@@ -3,10 +3,10 @@
     <div v-if="loading">
       <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
     </div>
-    <div v-if="events" class="content">
-      <div ref="events" v-bind:key="event._id" v-for="event in events">
-        <EventPreview v-bind:event="event" />
-      </div>
+    <div v-if="events" id="events">
+      <template v-for="event in events">
+        <EventPreview v-bind:key="event._id" v-bind:event="event" />
+      </template>
     </div>
     
   </div>
