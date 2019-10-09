@@ -52,9 +52,7 @@ export default {
 
 .image {
     background-color: #684c68;
-    width: 200px;
-    height: 150px;
-    object-fit: cover;
+    object-fit: cover !important;
 }
 
 .info {
@@ -67,4 +65,25 @@ h1, p {
     font-family: 'Open Sans', sans-serif;
     margin: 0%;
 }
+
+@media only screen and (min-width: 500px) {
+    .image {
+        width: 200px;
+        height: 150px;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .event {
+        overflow: auto;
+        flex-direction: column;
+    }
+
+    .image {
+        flex: 1;
+        flex-basis: 200px;
+        height: 300px;
+        width: auto;
+    }
+} 
 </style>
