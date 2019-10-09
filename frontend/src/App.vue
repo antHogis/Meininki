@@ -27,7 +27,7 @@ export default {
         background-color: #272527;
     }
 
-    .content {
+    body, html, #app, .content {
         display:flex;
         flex-flow: column;
         height: 100%;
