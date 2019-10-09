@@ -4,7 +4,7 @@
             <h1> {{ title }} </h1>
         </div>
         <div id="nav">
-            <router-link to="/" exact>Home</router-link>
+            <router-link to="/" exact><i class="fas fa-home"></i> Home</router-link>
             <router-link to="/about" exact>About</router-link>
             <!-- <router-link to="/">Foo</router-link>
             <router-link to="/">Bar</router-link>
