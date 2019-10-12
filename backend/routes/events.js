@@ -31,4 +31,10 @@ router.post('/', (req, res) => {
     .catch(err => res.status(422).send({ error: err}));
 });
 
+router.put('/:id', (req, res) => {
+  Event.findByIdAndUpdate(req.params.id, req.body)
+    .then(data => res.status(200).send())
+    .catch(err => res.status(500).send({error: err}));
+});
+
 module.exports = router;
