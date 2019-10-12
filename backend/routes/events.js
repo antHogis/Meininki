@@ -21,7 +21,9 @@ router.post('/', (req, res) => {
     tags: rb.tags,
     timeStart: new Date(rb.timeStart),
     timeEnd: new Date(rb.timeEnd),
-    imageUrl: rb.imageUrl
+    imageUrl: rb.imageUrl,
+    ticket: rb.ticket,
+    
   });
 
   event.save()
