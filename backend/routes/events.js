@@ -2,6 +2,18 @@ const express = require('express');
 const router = express.Router();
 const Event = require('../models/Event');
 
+function createEvent(event) {
+  return new Event({
+    title: event.title,
+    description: event.description,
+    tags: event.tags,
+    timeStart: new Date(event.timeStart),
+    timeEnd: new Date(event.timeEnd),
+    imageUrl: event.imageUrl,
+    ticket: event.ticket,
+  }); 
+}
+
 router.get('/', (req, res) => {
   Event.find()
     .then(data => res.json(data));
@@ -14,19 +26,7 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  const rb = req.body;
-  const event = new Event({
-    title: rb.title,
-    description: rb.description,
-    tags: rb.tags,
-    timeStart: new Date(rb.timeStart),
-    timeEnd: new Date(rb.timeEnd),
-    imageUrl: rb.imageUrl,
-    ticket: rb.ticket,
-    
-  });
-
-  event.save()
+  createEvent(req.body).save()
     .then(data => res.json(data))
     .catch(err => res.status(422).send({ error: err}));
 });
