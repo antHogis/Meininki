@@ -7,7 +7,7 @@
       <p> {{ description }} </p>
       <p> {{ price }}$ 
         <span v-if="event.ticket.purchaseLink">
-          <a v-bind:href="'//' + event.ticket.purchaseLink" target="_blank" class="purchaseLink">BUY</a>
+          <a v-bind:href="'//' + event.ticket.purchaseLink" target="_blank" class="purchaseLink" v-on:click.stop>BUY</a>
         </span>
       </p>
     </div>
