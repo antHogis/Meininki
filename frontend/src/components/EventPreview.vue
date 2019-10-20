@@ -5,6 +5,11 @@
     <div class="info">
       <h1> {{ event.title }} {{ simpleDate }}</h1>
       <p> {{ event.description }} </p>
+      <p> {{ price }}$ 
+        <span v-if="event.ticket.purchaseLink">
+          <a v-bind:href="'//' + event.ticket.purchaseLink" target="_blank" class="purchaseLink">BUY</a>
+        </span>
+      </p>
     </div>
   </div>
 </template>
@@ -19,7 +24,8 @@ export default {
   data() {
     let dateObject = new Date(this.event.timeStart);
     return {
-      simpleDate: dateObject.getDay() + '.' + dateObject.getMonth()
+      simpleDate: dateObject.getDay() + '.' + dateObject.getMonth(),
+      price: this.event.ticket.price.toFixed(2)
     }
   },
   methods: {
@@ -61,6 +67,14 @@ h1, p {
   color: white;
   font-family: 'Open Sans', sans-serif;
   margin: 0%;
+}
+
+.purchaseLink {
+  color: white;
+}
+
+.purchaseLink:hover {
+  font-weight: bold;
 }
 
 @media only screen and (min-width: 500px) {
