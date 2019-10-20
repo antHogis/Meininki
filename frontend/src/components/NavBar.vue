@@ -16,12 +16,7 @@
 <script>
 export default {
     name: 'NavBar',
-    props: ['title'],
-    data() {
-        return {
-            
-        }
-    }
+    props: ['title']
 }
 </script>
 
