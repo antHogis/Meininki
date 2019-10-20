@@ -4,7 +4,7 @@
       <Loading />
     </div>
     <div v-if="event">
-      <h1> {{ event.title }} </h1>
+      <EventComplete v-bind:event="event" />
     </div>
     <div v-if="error">
       <h1>Something went wrong :(</h1>
@@ -14,6 +14,7 @@
 
 <script>
 import Loading from "../components/Loading";
+import EventComplete from "../components/EventComplete"
 
 export default {
   name: 'EventViewer',
@@ -22,6 +23,7 @@ export default {
   },
   components: {
     Loading,
+    EventComplete
   },
   data() {
     return {
