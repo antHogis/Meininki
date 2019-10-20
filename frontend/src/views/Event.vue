@@ -1,12 +1,27 @@
 <template>
-  <h1> {{ id }} </h1>
+  <div class="event-container">
+    <div v-if="loading">
+      <Loading />
+    </div>
+    <div v-if="event">
+      <h1> {{ event.title }} </h1>
+    </div>
+    <div v-if="error">
+      <h1>Something went wrong :(</h1>
+    </div>
+  </div>
 </template>
 
 <script>
+import Loading from "../components/Loading";
+
 export default {
   name: 'Event',
   props: {
     id: String
+  },
+  components: {
+    Loading,
   },
   data() {
     return {
