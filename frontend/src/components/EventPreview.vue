@@ -4,7 +4,7 @@
     <div v-else class="image"> </div>
     <div class="info">
       <h1> {{ event.title }} {{ simpleDate }}</h1>
-      <p> {{ event.description }} </p>
+      <p> {{ description }} </p>
       <p> {{ price }}$ 
         <span v-if="event.ticket.purchaseLink">
           <a v-bind:href="'//' + event.ticket.purchaseLink" target="_blank" class="purchaseLink">BUY</a>
@@ -23,9 +23,14 @@ export default {
   },
   data() {
     let dateObject = new Date(this.event.timeStart);
+    let eventDescription = this.event.description;
+    let _description = eventDescription.length > 200 ?
+      eventDescription.slice(0, 199) + '...' :
+      eventDescription;
     return {
       simpleDate: dateObject.getDay() + '.' + dateObject.getMonth(),
-      price: this.event.ticket.price.toFixed(2)
+      price: this.event.ticket.price.toFixed(2),
+      description: _description
     }
   },
   methods: {
