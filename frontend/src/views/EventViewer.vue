@@ -1,5 +1,5 @@
 <template>
-  <div class="event-container">
+  <div>
     <div v-if="loading">
       <Loading />
     </div>
@@ -7,7 +7,7 @@
       <EventComplete v-bind:event="event" />
     </div>
     <div v-if="error">
-      <h1>Something went wrong :(</h1>
+      <h1 id="error">Something went wrong :(</h1>
     </div>
   </div>
 </template>
@@ -45,12 +45,19 @@ export default {
           this.event = eventData;
           this.loading = false;
           })
-        .catch(e => this.error = e);
+        .catch(e => {
+          this.error = e;
+          this.loading = false;
+          });
     }
   }
 }
 </script>
 
 <style scoped>
-
+#error {
+  color: white;
+  text-align: center;
+  font-family: 'Open Sans', sans-serif;
+}
 </style>
