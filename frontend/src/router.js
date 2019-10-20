@@ -22,7 +22,7 @@ export default new Router({
     {
       path: '/event/:id',
       name: 'eventById',
-      component: () => import('./views/Event.vue'),
+      component: () => import('./views/EventViewer.vue'),
       props: true
     }
   ],

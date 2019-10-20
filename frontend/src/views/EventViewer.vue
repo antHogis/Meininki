@@ -16,7 +16,7 @@
 import Loading from "../components/Loading";
 
 export default {
-  name: 'Event',
+  name: 'EventViewer',
   props: {
     id: String
   },
