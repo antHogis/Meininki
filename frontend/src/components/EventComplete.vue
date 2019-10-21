@@ -42,8 +42,9 @@ h1, p {
 }
 
 .image {
-  min-width: 100%;
-  max-height: 30vh;
+  width: 100%;
+  max-height: 40vh;
+  min-height: 15vh;
   object-fit: cover;
 }
 
