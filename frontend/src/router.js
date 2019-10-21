@@ -20,10 +20,15 @@ export default new Router({
       component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
     },
     {
-      path: '/event/:id',
+      path: '/event/:id(.{24})',
       name: 'eventById',
       component: () => import('./views/EventViewer.vue'),
       props: true
+    },
+    {
+      path: '/event/submit',
+      name: 'submitEvent',
+      component: () => import('./views/EventSubmitter.vue')
     }
   ],
   scrollBehavior (to, from, savedPosition) {
