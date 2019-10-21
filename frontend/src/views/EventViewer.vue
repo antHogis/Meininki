@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="viewer-container">
     <div v-if="loading">
       <Loading />
     </div>
@@ -59,5 +59,10 @@ export default {
   color: white;
   text-align: center;
   font-family: 'Open Sans', sans-serif;
+}
+
+.viewer-container {
+  height: 100%;
+  background-color: #413941;
 }
 </style>
