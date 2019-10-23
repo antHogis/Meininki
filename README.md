@@ -1,6 +1,6 @@
 # Requirements
 - node.js
-- Environment variable `DB_CONNECTION`, containing url to a MongoDB database collection. If using dotenv, the .env file should be stored in directory `backend/`
+- Environment variable `DB_CONNECTION`, containing url to a MongoDB database. If using dotenv, the .env file should be stored in directory `backend/`
 
 # Installing dependencies
 ## Front end
