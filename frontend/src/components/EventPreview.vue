@@ -28,7 +28,7 @@ export default {
       eventDescription.slice(0, 199) + '...' :
       eventDescription;
     return {
-      simpleDate: dateObject.getDay() + '.' + dateObject.getMonth(),
+      simpleDate: dateObject.getDate() + '.' + (dateObject.getMonth() + 1),
       price: this.event.ticket.price.toFixed(2),
       description: _description
     }
