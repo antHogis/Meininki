@@ -6,6 +6,7 @@
     "start": "nodemon ./bin/www"
   },
   "dependencies": {
+    "bcrypt": "^3.0.6",
     "clean-css": ">=4.1.11",
     "constantinople": "^4.0.1",
     "cookie-parser": "~1.4.4",
