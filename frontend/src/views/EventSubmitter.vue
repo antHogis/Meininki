@@ -71,7 +71,11 @@
         <li v-for="(error,index) in errors" v-bind:key="index" >{{ error }}</li>
       </ul>
     </template>
-
+    
+    <template v-if="submitted">
+      <h2>Event submitted!</h2>
+    </template>
+    
     <h2></h2>
     <input
       type="submit" 
@@ -127,11 +131,14 @@ export default {
           },
           body: JSON.stringify(fetchBody)
         })
-        .then(res => res.json())
-        .then(json => console.log(json))
+        .then(() => {
+          this.submitted = true;
+          clear();
+        })
         .catch(e => console.log(e));
       },
       validate() {
+        this.submitted = false;
         if (this.submitPressed == false) return;
 
         this.errors = [];
