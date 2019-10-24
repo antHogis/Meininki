@@ -29,8 +29,8 @@ router.post('/register', async (req, res) => {
           errors.push(`Invalid data type for ${fieldName}`);
         }
   
-        if (fieldName === 'email' && errorName === 'ValidatorError') {
-          errors.push('Invalid email format');
+        if (errorName === 'ValidatorError') {
+          errors.push(`Invalid ${fieldName} format`);
         }
       }
     }
