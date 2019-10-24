@@ -5,10 +5,18 @@ let validateEmail = function(email) {
   return re.test(email);
 }
 
+let validateName = function(name) {
+  return /^[a-z0-9_-]{6,16}$/i.test(name);
+}
+
 const UserSchema = mongoose.Schema({
   name: {
     type: String,
-    required: true
+    required: true,
+    validate: [
+      validateName,
+      'Name must be between 6-16 characters, and contain nothing but letters, numbers, hyphens, and underscores'
+    ]
   },
   email: {
     type: String,
