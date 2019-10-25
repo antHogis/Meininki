@@ -10,15 +10,15 @@ class ErrorResponse {
     this.errors = [];    
   }
 
-  add(errorEntries = undefined, field, message) {
-    if (errorEntries === undefined) {
-      this.errors.push(new ErrorEntry(field, message));
-    } else {
-      this.errors.push(errorEntries);
-    }
-    
+  add(field, message) {
+    this.errors.push(new ErrorEntry(field, message));
     return this;
   }
+
+  addAll(errorEntries) {
+    this.errors.push(...errorEntries);
+    return this;
+  }  
 
   compile() {
     return {

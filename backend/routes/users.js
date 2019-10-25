@@ -52,7 +52,7 @@ router.post('/register', async (req, res) => {
       responseBody.add('email', error.message);
     }
     
-    responseBody.add(getJoiValidationErrors(error));
+    responseBody.addAll(getJoiValidationErrors(error));
 
     // Sending error response
     if (responseBody.hasEntries()) {
