@@ -2,8 +2,9 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
-const Joi = require('@hapi/joi');
+const { validateRegister } = require('../validation');
 const EmailReservedError = require('../errors/EmailReservedError');
+const { ErrorResponse } = require('../errors/ErrorResponse');
 
 async function createUser(user) {
   let hashedPassword = await bcrypt.hash(user.password, 10);
@@ -15,30 +16,9 @@ async function createUser(user) {
   });
 }
 
-function ErrorResponseBody(errors) {
-  this.errors = errors;
-}
-
-function ErrorEntry(field, message) {
-  this.field = field;
-  this.message = message;
-}
-
-const userSchema = Joi.object({
-  name: Joi.string()
-    .pattern(/^[a-z0-9_-]{6,16}$/i, {
-      name: 'Must be 6-16 characters, can only contain letters, numbers, underscores and hyphens'
-    }),
-  email: Joi.string()
-    .email(),
-  password: Joi.string()
-    .min(8)
-    .max(64)
-});
-
 router.post('/register', async (req, res) => {
   try {
-    await userSchema.validateAsync(req.body, { abortEarly: false });
+    await validateRegister(req.body);
     if (await User.findOne({ email: req.body.email })) {
       throw new EmailReservedError(req.body.email);
     }
@@ -48,10 +28,10 @@ router.post('/register', async (req, res) => {
 
     res.send(savedUser);
   } catch (error) {
-    let errors = [];
+    let responseBody = new ErrorResponse();
 
     if (error instanceof EmailReservedError) {
-      errors.push(new ErrorEntry('email', error.message));
+      responseBody.add('email', error.message);
     }
     
     // Joi validation error handling
@@ -60,16 +40,16 @@ router.post('/register', async (req, res) => {
         let context = detail.context;
         let field = context.key;
         let message = context.name === undefined ? detail.message : context.name;
-  
-        errors.push(new ErrorEntry(field, message));
+        
+        responseBody.add(field, message);
       }
     }
 
     // Sending error response
-    if (errors.length) {
-      res.status(422).send(new ErrorResponseBody(errors));
+    if (responseBody.hasEntries()) {
+      res.status(422).send(responseBody.compile());
     } else {
-      res.status(500).send(new ErrorResponseBody(new ErrorEntry('N/A', 'Server error')));
+      res.status(500).send(responseBody.add('N/A', 'Server error').compile());
     }
   }
 });
