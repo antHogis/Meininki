@@ -2,9 +2,11 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
-const { validateRegister } = require('../validation');
+const { validateRegister, validateLogin } = require('../validation');
 const EmailReservedError = require('../errors/EmailReservedError');
 const { ErrorResponse } = require('../errors/ErrorResponse');
+const EmailNotFoundError = require('../errors/EmailNotFoundError');
+const PasswordIncorrectError = require('../errors/PasswordIncorrectError');
 
 async function createUser(user) {
   let hashedPassword = await bcrypt.hash(user.password, 10);
