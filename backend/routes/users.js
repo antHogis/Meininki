@@ -3,7 +3,7 @@ const router = express.Router();
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const Joi = require('@hapi/joi');
-const EmailReservedError = require('../exceptions/EmailReservedError');
+const EmailReservedError = require('../errors/EmailReservedError');
 
 async function createUser(user) {
   let hashedPassword = await bcrypt.hash(user.password, 10);
