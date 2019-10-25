@@ -25,7 +25,9 @@ function ErrorEntry(field, message) {
 
 const userSchema = Joi.object({
   name: Joi.string()
-    .pattern(/^[a-z0-9_-]{6,16}$/i, {name: 'Must be 6-16 characters, can only contain letters, numbers, underscores and hyphens'}),
+    .pattern(/^[a-z0-9_-]{6,16}$/i, {
+      name: 'Must be 6-16 characters, can only contain letters, numbers, underscores and hyphens'
+    }),
   email: Joi.string()
     .email(),
   password: Joi.string()
@@ -59,7 +61,8 @@ router.post('/register', async (req, res) => {
       if (error.code === 11000) {
         for (field in error.keyValue) {
           if (field === 'email') {
-            errors.push(new ErrorEntry(field, `Address ${error.keyValue[field]} is already in use.`))
+            errors.push(new ErrorEntry(field, 
+              `Address ${error.keyValue[field]} is already in use.`))
           }
         }
       }
