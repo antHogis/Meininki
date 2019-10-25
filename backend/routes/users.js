@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 const User = require('../models/User');
 const { validateRegister, validateLogin } = require('../validation');
 const EmailReservedError = require('../errors/EmailReservedError');
-const { ErrorResponse } = require('../errors/ErrorResponse');
+const { ErrorResponse, ErrorEntry } = require('../errors/ErrorResponse');
 const EmailNotFoundError = require('../errors/EmailNotFoundError');
 const PasswordIncorrectError = require('../errors/PasswordIncorrectError');
 
@@ -16,6 +16,22 @@ async function createUser(user) {
     email: user.email,
     password: hashedPassword
   });
+}
+
+function getJoiValidationErrors(error) {
+  let errorEntries = [];
+
+  if (error.details !== undefined) {
+    for (detail of error.details) {
+      let context = detail.context;
+      let field = context.key;
+      let message = context.name === undefined ? detail.message : context.name;
+      
+      errorEntries.push(new ErrorEntry(field, message));
+    }
+  }
+  
+  return errorEntries;
 }
 
 router.post('/register', async (req, res) => {
@@ -36,16 +52,7 @@ router.post('/register', async (req, res) => {
       responseBody.add('email', error.message);
     }
     
-    // Joi validation error handling
-    if (error.details !== undefined) {
-      for (detail of error.details) {
-        let context = detail.context;
-        let field = context.key;
-        let message = context.name === undefined ? detail.message : context.name;
-        
-        responseBody.add(field, message);
-      }
-    }
+    responseBody.add(getJoiValidationErrors(error));
 
     // Sending error response
     if (responseBody.hasEntries()) {
