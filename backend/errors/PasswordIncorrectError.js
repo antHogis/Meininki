@@ -4,3 +4,5 @@ class PasswordIncorrectError extends Error {
     this.name = 'PasswordIncorrectError';
   }
 }
+
+module.exports = PasswordIncorrectError;

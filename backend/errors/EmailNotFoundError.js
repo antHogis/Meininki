@@ -4,3 +4,5 @@ class EmailNotFoundError extends Error {
     this.name = 'EmailNotFoundError';
   }
 }
+
+module.exports = EmailNotFoundError;
