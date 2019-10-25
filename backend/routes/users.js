@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const Joi = require('@hapi/joi');
+const EmailReservedError = require('../exceptions/EmailReservedError');
 
 async function createUser(user) {
   let hashedPassword = await bcrypt.hash(user.password, 10);
@@ -38,12 +39,21 @@ const userSchema = Joi.object({
 router.post('/register', async (req, res) => {
   try {
     await userSchema.validateAsync(req.body, { abortEarly: false });
+
+    if (User.findOne({ email: req.body.email })) {
+      throw new EmailReservedError(req.body.email);
+    }
+
     let user = await createUser(req.body);
     let savedUser = await user.save();
 
     res.send(savedUser);
   } catch (error) {
     let errors = [];
+
+    if (error instanceof EmailReservedError) {
+      errors.push(new ErrorEntry('email', error.message));
+    }
     
     // Joi validation error handling
     if (error.details !== undefined) {
@@ -53,18 +63,6 @@ router.post('/register', async (req, res) => {
         let message = context.name === undefined ? detail.message : context.name;
   
         errors.push(new ErrorEntry(field, message));
-      }
-    }
-
-    // MongoDB Unique constraint violation error handling
-    if (error.name !== undefined && error.name === 'MongoError') {
-      if (error.code === 11000) {
-        for (field in error.keyValue) {
-          if (field === 'email') {
-            errors.push(new ErrorEntry(field, 
-              `Address ${error.keyValue[field]} is already in use.`))
-          }
-        }
       }
     }
 
