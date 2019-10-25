@@ -63,4 +63,36 @@ router.post('/register', async (req, res) => {
   }
 });
 
+router.post('/login', async (req, res) => {
+  try {
+    await validateLogin(req.body);
+    const user = await User.findOne({ email: req.body.email });
+
+    if (!user) {
+      throw new EmailNotFoundError();
+    } 
+
+    if (!(await bcrypt.compare(req.body.password, user.password))) {
+      throw new PasswordIncorrectError();
+    }
+
+    res.send('logged in')
+  } catch (error) {
+    let errorResponse = new ErrorResponse();
+
+    if (error instanceof EmailNotFoundError) {
+      errorResponse.add('email', error.message);
+    } else if (error instanceof PasswordIncorrectError) {
+      errorResponse.add('password', error.message);
+    }
+
+    errorResponse.addAll(getJoiValidationErrors(error));
+
+    if (errorResponse.hasEntries()) {
+      res.status(422).send(errorResponse.compile());
+    } else {
+      res.status(500).send(errorResponse.add('N/A', 'Server error').compile());
+    }
+  }
+});
 module.exports = router;
