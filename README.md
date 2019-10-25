@@ -1,6 +1,8 @@
 # Requirements
 - node.js
-- Environment variable `DB_CONNECTION`, containing url to a MongoDB database. If using dotenv, the .env file should be stored in directory `backend/`
+- Environment variables (If using dotenv, the .env file should be stored in directory `backend/`)
+    - `DB_CONNECTION` - contains url to a MongoDB database.
+    - `JWT_SECRET` - contains secret for creating Json web tokens.
 
 # Installing dependencies
 ## Front end
