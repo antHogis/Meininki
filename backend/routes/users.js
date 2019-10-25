@@ -39,8 +39,7 @@ const userSchema = Joi.object({
 router.post('/register', async (req, res) => {
   try {
     await userSchema.validateAsync(req.body, { abortEarly: false });
-
-    if (User.findOne({ email: req.body.email })) {
+    if (await User.findOne({ email: req.body.email })) {
       throw new EmailReservedError(req.body.email);
     }
 
