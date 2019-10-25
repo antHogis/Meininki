@@ -22,6 +22,16 @@ async function validateRegister(registrationData) {
   return await userSchema.validateAsync(registrationData, { abortEarly: false });
 }
 
+async function validateLogin(loginData) {
+  const loginSchema = Joi.object({
+    email: emailValidation,
+    password: passwordValidation
+  });
+
+  return await loginSchema.validateAsync(loginData, { abortEarly: false });
+}
+
 module.exports = {
-  validateRegister
+  validateRegister,
+  validateLogin
 }
