@@ -21,7 +21,7 @@
       >
       <h3>{{ getErrorByField('email') }}</h3>
 
-      <h2>Password. Must be 6-16 characters, can only contain letters, numbers, underscores and hyphens</h2>
+      <h2>Password</h2>
       <input
         type="password"
         v-model="password"
