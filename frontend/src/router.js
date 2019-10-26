@@ -29,6 +29,11 @@ export default new Router({
       path: '/event/submit',
       name: 'submitEvent',
       component: () => import('./views/EventSubmitter.vue')
+    },
+    {
+      path: '/signup',
+      name: 'signUp',
+      component: () => import('./views/SignUp.vue')
     }
   ],
   scrollBehavior (to, from, savedPosition) {

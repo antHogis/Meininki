@@ -7,6 +7,7 @@
             <router-link to="/" exact><i class="fas fa-home"></i> Home</router-link>
             <router-link to="/about" exact>About</router-link>
             <router-link to="/event/submit">Submit</router-link>
+            <router-link :to="{ name:'signUp' }">Sign Up</router-link>
             <!-- <router-link to="/">Bar</router-link>
             <router-link to="/">Biz</router-link> -->
         </div>
