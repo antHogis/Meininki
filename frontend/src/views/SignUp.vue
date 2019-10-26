@@ -61,14 +61,7 @@ export default {
         password: this.password 
       };
 
-      fetch(backendUrl + '/users/register', {
-        method: 'POST',
-        mode: 'cors',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(user)
-      })
+      this.postRequest('/users/register', user)
       .then(res => res.json())
       .then(json => {
         if (json.errors === undefined) {
