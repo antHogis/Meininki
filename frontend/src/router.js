@@ -34,6 +34,11 @@ export default new Router({
       path: '/signup',
       name: 'signUp',
       component: () => import('./views/SignUp.vue')
+    },
+    {
+      path: '/login',
+      name: 'logIn',
+      component: () => import('./views/LogIn.vue')
     }
   ],
   scrollBehavior (to, from, savedPosition) {
