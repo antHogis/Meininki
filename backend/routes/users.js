@@ -4,10 +4,8 @@ const jwt = require('jsonwebtoken');
 
 const User = require('../models/User');
 const { validateRegister, validateLogin } = require('../validation');
-const EmailReservedError = require('../errors/EmailReservedError');
+const { EmailReservedError, EmailNotFoundError, PasswordIncorrectError } = require('../errors/errors');
 const { ErrorResponse, ErrorEntry } = require('../errors/ErrorResponse');
-const EmailNotFoundError = require('../errors/EmailNotFoundError');
-const PasswordIncorrectError = require('../errors/PasswordIncorrectError');
 
 async function createUser(user) {
   let hashedPassword = await bcrypt.hash(user.password, 10);
