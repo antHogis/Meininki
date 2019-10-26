@@ -51,8 +51,8 @@ export default {
   methods: {
     getErrorByField(field) {
       if (this.error != null) {
-        let emailError = this.error.errors.find(e => e.field === field);
-        return emailError ? emailError.message : '';
+        let error = this.error.errors.find(e => e.field === field);
+        return error ? error.message : '';
       } else {
         return '';
       }
