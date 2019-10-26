@@ -1,4 +1,6 @@
 <script>
+import { backendUrl } from '../urls';
+
 export default {
   methods: {
     getErrorByField(field) {
@@ -8,6 +10,16 @@ export default {
       } else {
         return '';
       }
+    },
+    postRequest(route, body) {
+      return fetch(backendUrl + route, {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+      })
     }
   }
 }
