@@ -1,5 +1,6 @@
 <template>
   <div class="submit-container">
+    <h1>Log in</h1>
     <h2>Email address</h2>
     <input
       type="email"
