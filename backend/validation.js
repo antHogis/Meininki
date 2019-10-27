@@ -34,7 +34,32 @@ async function validateLogin(loginData) {
   return await loginSchema.validateAsync(loginData, { abortEarly: false });
 }
 
+async function validateEventQueryParams(queryData) {
+  const querySchema = Joi.object({
+    ownerId: Joi.string()
+  })
+
+  return await querySchema.validateAsync(queryData, { abortEarly: false });
+}
+
+function getJoiValidationErrors(error) {
+  let errorEntries = [];
+
+  if (error.details !== undefined) {
+    for (detail of error.details) {
+      let context = detail.context;
+      let field = context.key;
+      let message = context.name === undefined ? detail.message : context.name;
+      
+      errorEntries.push(new ErrorEntry(field, message));
+    }
+  }
+  
+  return errorEntries;
+}
+
 module.exports = {
   validateRegister,
-  validateLogin
+  validateLogin,
+  validateEventQueryParams
 }
