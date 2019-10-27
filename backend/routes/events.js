@@ -22,6 +22,18 @@ function createEvent(event, owner) {
   }); 
 }
 
+function sendError(res, error) {
+  let errorResponse = new ErrorResponse();
+
+    errorResponse.addAll(getJoiValidationErrors(error));
+
+    if (errorResponse.hasEntries()) {
+      res.status(422).send(errorResponse.compile());
+    } else {
+      res.status(500).send(ErrorResponse.default());
+    }
+}
+
 router.get('/', async (req, res) => {
   try {
     await validateEventQueryParams(req.query)
@@ -46,10 +58,14 @@ router.get('/:id', (req, res) => {
     .then(data => res.json(data));  
 });
 
-router.post('/', verifyToken, (req, res) => {
-  createEvent(req.body, req.user._id).save()
-    .then(data => res.json(data))
-    .catch(err => res.status(422).send({ error: err}));
+router.post('/', verifyToken, async (req, res) => {
+  try {
+    await validateEvent(req.body, true);
+    let event = await createEvent(req.body, req.user._id).save();
+    res.send(event);
+  } catch (error) {
+    sendError(res, error);
+  }
 });
 
 router.put('/:id', verifyToken, async (req, res) => {
