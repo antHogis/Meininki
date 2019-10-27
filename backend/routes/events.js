@@ -1,8 +1,8 @@
-const express = require('express');
-const router = express.Router();
+const router = require('express').Router();
 const Event = require('../models/Event');
+const { verifyToken } = require('../authorization');
 
-function createEvent(event) {
+function createEvent(event, owner) {
   return new Event({
     title: event.title,
     description: event.description,
@@ -11,6 +11,7 @@ function createEvent(event) {
     timeEnd: new Date(event.timeEnd),
     imageUrl: event.imageUrl,
     ticket: event.ticket,
+    owner: owner
   }); 
 }
 
@@ -25,8 +26,8 @@ router.get('/:id', (req, res) => {
     .then(data => res.json(data));  
 });
 
-router.post('/', (req, res) => {
-  createEvent(req.body).save()
+router.post('/', verifyToken, (req, res) => {
+  createEvent(req.body, req.user._id).save()
     .then(data => res.json(data))
     .catch(err => res.status(422).send({ error: err}));
 });
