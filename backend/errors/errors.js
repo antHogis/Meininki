@@ -22,7 +22,7 @@ class PasswordIncorrectError extends Error {
 class InvalidTokenIdError extends Error {
   constructor() {
     super('Invalid id in token');
-    this.name('InvalidTokenIdError');
+    this.name = 'InvalidTokenIdError';
   }
 }
 
