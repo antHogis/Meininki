@@ -26,9 +26,17 @@ class InvalidTokenIdError extends Error {
   }
 }
 
+class UnauthorizedError extends Error {
+  constructor() {
+    super('Unauthorized access');
+    this.name = 'UnauthorizedError';
+  }
+}
+
 module.exports = {
   EmailNotFoundError,
   EmailReservedError,
   PasswordIncorrectError,
-  InvalidTokenIdError
+  InvalidTokenIdError,
+  UnauthorizedError
 }
