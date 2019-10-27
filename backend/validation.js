@@ -37,7 +37,7 @@ async function validateLogin(loginData) {
 
 async function validateEventQueryParams(queryData) {
   const querySchema = Joi.object({
-    ownerId: Joi.string()
+    owner: Joi.string()
   })
 
   return await querySchema.validateAsync(queryData, { abortEarly: false });
