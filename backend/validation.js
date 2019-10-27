@@ -43,6 +43,30 @@ async function validateEventQueryParams(queryData) {
   return await querySchema.validateAsync(queryData, { abortEarly: false });
 }
 
+async function validateEvent(data, requiredFields = false) {
+  let requireFields = {
+    required: schema => schema.required()
+  };
+
+  let eventSchema = Joi.object({
+    title: Joi.string().min(1).alter(requireFields),
+    description: Joi.string().min(1).alter(requireFields),
+    tags: Joi.array().items(Joi.string()),
+    timeStart: Joi.date().iso().greater('now').alter(requireFields),
+    timeEnd: Joi.date().iso().greater(data.timeStart).alter(requireFields),
+    imageUrl: Joi.string().uri().alter(requireFields),
+    ticket: Joi.object({
+      price: Joi.number().min(0).alter(requireFields),
+      purchaseLink: Joi.string().uri()
+    }),
+    owner: Joi.string().hex()
+  });
+
+  return requiredFields ? 
+    await eventSchema.tailor('required').validateAsync() :
+    await eventSchema.validateAsync(data);
+}
+
 function getJoiValidationErrors(error) {
   let errorEntries = [];
 
@@ -63,5 +87,6 @@ module.exports = {
   validateRegister,
   validateLogin,
   validateEventQueryParams,
+  validateEvent,
   getJoiValidationErrors
 }
