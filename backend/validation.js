@@ -1,4 +1,5 @@
 const Joi = require('@hapi/joi');
+const { ErrorEntry } = require('./errors/ErrorResponse');
 
 const nameValidation = Joi.string()
   .pattern(/^[a-z0-9_-]{6,16}$/i, {
@@ -42,8 +43,25 @@ async function validateEventQueryParams(queryData) {
   return await querySchema.validateAsync(queryData, { abortEarly: false });
 }
 
+function getJoiValidationErrors(error) {
+  let errorEntries = [];
+
+  if (error.details !== undefined) {
+    for (detail of error.details) {
+      let context = detail.context;
+      let field = context.key;
+      let message = context.name === undefined ? detail.message : context.name;
+      
+      errorEntries.push(new ErrorEntry(field, message));
+    }
+  }
+  
+  return errorEntries;
+}
+
 module.exports = {
   validateRegister,
   validateLogin,
-  validateEventQueryParams
+  validateEventQueryParams,
+  getJoiValidationErrors
 }

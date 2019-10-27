@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/User');
-const { validateRegister, validateLogin } = require('../validation');
+const { validateRegister, validateLogin, getJoiValidationErrors } = require('../validation');
 const { verifyToken } = require('../authorization');
 const { ErrorResponse, ErrorEntry } = require('../errors/ErrorResponse');
 const { 
@@ -21,22 +21,6 @@ async function createUser(user) {
     email: user.email,
     password: hashedPassword
   });
-}
-
-function getJoiValidationErrors(error) {
-  let errorEntries = [];
-
-  if (error.details !== undefined) {
-    for (detail of error.details) {
-      let context = detail.context;
-      let field = context.key;
-      let message = context.name === undefined ? detail.message : context.name;
-      
-      errorEntries.push(new ErrorEntry(field, message));
-    }
-  }
-  
-  return errorEntries;
 }
 
 function createUserBody(user) {
