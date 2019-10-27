@@ -7,18 +7,45 @@
       <router-link to="/" exact><i class="fas fa-home"></i> Home</router-link>
       <router-link to="/about" exact>About</router-link>
       <router-link to="/event/submit">Submit</router-link>
-      <router-link :to="{ name:'logIn' }">Log In</router-link>
-      <router-link :to="{ name:'signUp' }">Sign Up</router-link>
+      <template v-if="user">
+      </template>
+      <template v-else>
+        <router-link :to="{ name: 'logIn' }">Log In</router-link>
+        <router-link :to="{ name: 'signUp' }">Sign Up</router-link>
+      </template>
     </div>
   </div>
 </template>
 
 <script>
 import cookies from 'js-cookie';
+import ApiRequests from '../mixins/ApiRequests';
 
 export default {
   name: 'NavBar',
-  props: ['title']
+  props: ['title'],
+  mixins: [
+    ApiRequests,
+  ],
+  created() {
+    this.checkLogin()
+  },
+  data() {
+    return {
+      user: null
+    }
+  },
+  methods: {
+    async checkLogin() {
+      let res = await this.postRequest('/users/verify', null, true);
+
+      if (res.ok) {
+        this.user = await res.json();
+      } else {
+        console.log(await res.json());
+      }
+    }
+  }
 }
 </script>
 
