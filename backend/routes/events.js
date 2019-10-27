@@ -1,6 +1,8 @@
 const router = require('express').Router();
 const Event = require('../models/Event');
 const { verifyToken } = require('../authorization');
+const { validateEventQueryParams, getJoiValidationErrors } = require('../validation');
+const { ErrorResponse } = require('../errors/ErrorResponse');
 
 function createEvent(event, owner) {
   return new Event({
@@ -15,9 +17,22 @@ function createEvent(event, owner) {
   }); 
 }
 
-router.get('/', (req, res) => {
-  Event.find()
-    .then(data => res.json(data));
+router.get('/', async (req, res) => {
+  try {
+    await validateEventQueryParams(req.query)
+    let events = await Event.find(req.query);
+    res.send(events);
+  } catch (error) {
+    let errorResponse = new ErrorResponse();
+
+    errorResponse.addAll(getJoiValidationErrors(error));
+
+    if (errorResponse.hasEntries()) {
+      res.status(422).send(errorResponse.compile());
+    } else {
+      res.status(500).send(ErrorResponse.default());
+    }
+  }
 })
 
 router.get('/:id', (req, res) => {
