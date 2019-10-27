@@ -37,6 +37,7 @@
 <script>
 import { backendUrl } from '../urls';
 import Form from '../mixins/Form';
+import router from '../router';
 
 export default {
   name: 'SignUp',
@@ -53,7 +54,7 @@ export default {
     Form
   ],
   methods: {
-    createUser() {
+    async createUser() {
       this.error = null;
       const user = { 
         name: this.name, 
@@ -61,15 +62,13 @@ export default {
         password: this.password 
       };
 
-      this.postRequest('/users/register', user)
-      .then(res => res.json())
-      .then(json => {
-        if (json.errors === undefined) {
-          this.userCreated = true;
-        } else {
-          this.error = json;
-        }
-      })
+      let res = await this.postRequest('/users/register', user)
+      if (res.ok) {
+        router.push({ name: 'logIn' });
+      } else {
+        let error = await res.json();
+        this.error = error;
+      }
     
     }
   }
