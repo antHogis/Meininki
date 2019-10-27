@@ -4,8 +4,14 @@ const jwt = require('jsonwebtoken');
 
 const User = require('../models/User');
 const { validateRegister, validateLogin } = require('../validation');
-const { EmailReservedError, EmailNotFoundError, PasswordIncorrectError } = require('../errors/errors');
+const { verifyToken } = require('../authorization');
 const { ErrorResponse, ErrorEntry } = require('../errors/ErrorResponse');
+const { 
+  EmailReservedError, 
+  EmailNotFoundError, 
+  PasswordIncorrectError,
+  InvalidTokenIdError
+} = require('../errors/errors');
 
 async function createUser(user) {
   let hashedPassword = await bcrypt.hash(user.password, 10);
@@ -31,6 +37,13 @@ function getJoiValidationErrors(error) {
   }
   
   return errorEntries;
+}
+
+function createUserBody(user) {
+  return {
+    _id: user.get('_id'),
+    name: user.get('name'),
+  };
 }
 
 router.post('/register', async (req, res) => {
@@ -94,6 +107,20 @@ router.post('/login', async (req, res) => {
       console.log(error);
       res.status(500).send(errorResponse.add('N/A', 'Server error').compile());
     }
+  }
+});
+
+router.post('/verify', verifyToken, async (req, res) => {
+  if (!req.user) {
+    return res.status(500).send(ErrorResponse.default());
+  }
+
+  let user = await User.findById({_id: req.user._id});
+  
+  if (user) {
+    res.send(createUserBody(user));
+  } else {
+    res.status(404).send(new ErrorResponse().add('token', 'User not found'));
   }
 });
 
