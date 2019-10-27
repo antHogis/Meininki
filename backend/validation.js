@@ -63,7 +63,7 @@ async function validateEvent(data, requiredFields = false) {
   });
 
   return requiredFields ? 
-    await eventSchema.tailor('required').validateAsync() :
+    await eventSchema.tailor('required').validateAsync(data) :
     await eventSchema.validateAsync(data);
 }
 
