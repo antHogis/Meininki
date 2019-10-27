@@ -26,6 +26,12 @@ class ErrorResponse {
     };
   }
 
+  static default() {
+    return {
+      errors: [new ErrorEntry('N/A', 'ServerError')]
+    }
+  }
+
   hasEntries() {
     return this.errors.length > 0;
   }
