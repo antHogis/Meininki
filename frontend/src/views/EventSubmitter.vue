@@ -114,36 +114,32 @@ export default {
       this.verifyLogin();
     },
     methods: {
-      submit(event) {
+      async submit(event) {
         this.submitPressed = true;
         if (this.validate() !== 0) return;
 
         const fetchBody = {
           title: this.title,
           description: this.description,
-          tags: this.tags,
+          tags: this.tags.length > 0 ? this.tags : undefined,
           timeStart: this.timeStart,
           timeEnd: this.timeEnd,
-          imageUrl: this.imageUrl,
+          imageUrl: this.imageUrl ? this.imageUrl : undefined,
           ticket: {
             price: this.price,
-            purchaseLink: this.purchaseLink
+            purchaseLink: this.purchaseLink ? this.purchaseLink : undefined
           }
         };
 
-        fetch(backendUrl + '/events', {
-          method: 'POST',
-          mode: 'cors',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(fetchBody)
-        })
-        .then(() => {
+        let res = await this.postRequest('/events', fetchBody, true);
+
+        if (res.ok) {
           this.submitted = true;
-          clear();
-        })
-        .catch(e => console.log(e));
+          this.clear();
+        } else {
+          let error = await res.json();
+          console.table(error.errors);
+        }
       },
       validate() {
         this.submitted = false;
