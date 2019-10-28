@@ -50,6 +50,7 @@ export default {
       if (res.ok) {
         let token = await res.text();
         cookies.set('auth-token', token);
+        this.$emit('check-login');
         router.push({ name: 'home' });
       } else {
         let error = await res.json();
