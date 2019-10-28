@@ -1,7 +1,12 @@
 <script>
 import { backendUrl } from '../urls';
+import ApiRequests from './ApiRequests';
 
 export default {
+  name: 'Form',
+  mixins: [
+    ApiRequests
+  ],
   methods: {
     getErrorByField(field) {
       if (this.error != null) {
@@ -11,16 +16,6 @@ export default {
         return '';
       }
     },
-    postRequest(route, body) {
-      return fetch(backendUrl + route, {
-        method: 'POST',
-        mode: 'cors',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(body)
-      })
-    }
   }
 }
 </script>
