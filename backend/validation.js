@@ -54,7 +54,7 @@ async function validateEvent(data, requiredFields = false) {
     tags: Joi.array().items(Joi.string()),
     timeStart: Joi.date().iso().greater('now').alter(requireFields),
     timeEnd: Joi.date().iso().greater(data.timeStart).alter(requireFields),
-    imageUrl: Joi.string().uri().alter(requireFields),
+    imageUrl: Joi.string().uri(),
     ticket: Joi.object({
       price: Joi.number().min(0).alter(requireFields),
       purchaseLink: Joi.string().uri()
