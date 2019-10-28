@@ -43,10 +43,10 @@ async function validateUserUpdate(userData, oldUserData) {
     oldPassword: passwordValidation
   })
     .with('email', 'oldEmail')
-    .with('name, oldName')
+    .with('name', 'oldName')
     .with('password', 'oldPassword');
   
-  return await userSchema(userData, { abortEarly: false });
+  return await userSchema.validateAsync(userData, { abortEarly: false });
 }
 
 async function validateEventQueryParams(queryData) {
