@@ -108,4 +108,16 @@ router.post('/verify', verifyToken, async (req, res) => {
   }
 });
 
+router.get('/:id', async (req, res) => {
+  let id = req.params.id;
+
+  let user = await User.findById(id);
+
+  if (user) {
+    res.send(createUserBody(user));
+  } else {
+    res.status(404).send(new ErrorResponse().add('id', 'Invalid id').compile());
+  }
+});
+
 module.exports = router;
