@@ -12,7 +12,7 @@ const defaultOptions = {
 export default {
   name: 'ApiRequests',
   methods: {
-    getRequest(route, token) {
+    getRequest(route, token = false) {
       let options = {
         ...defaultOptions,
         method: 'GET'
@@ -25,7 +25,7 @@ export default {
       
       return fetch(backendUrl + route, options);
     },
-    postRequest(route, body, token) {
+    postRequest(route, body, token = false) {
       let options = {
         ...defaultOptions,
         method: 'POST'
