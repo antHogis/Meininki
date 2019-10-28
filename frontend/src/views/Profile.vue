@@ -98,6 +98,8 @@ export default {
   background-color: #413941;
   padding: 0% 5%;
   padding-bottom: 10%;
+  display: block;
+  overflow: auto;
 }
 
 h1, h2, h3, h4, p, li {
