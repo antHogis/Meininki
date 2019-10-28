@@ -11,7 +11,12 @@
 
       <h2>Posted events:</h2>
       <template v-if="events.length > 0">
-        <EventPreview v-for="(event, index) in events" :key="index" :event="event" />
+        <button v-on:click="toggleEvents">
+          {{ showEvents ? 'Hide' : 'Show' }}
+        </button>
+        <transition-group name="fade" tag="div">
+          <EventPreview v-for="(event, index) in shownEvents" :key="index" :event="event" />
+        </transition-group>
       </template>
       <template v-else>
         <p>This user has not posted any events</p>
@@ -53,6 +58,8 @@ export default {
       loading: true,
       events: [],
       error: '',
+      showEvents: true,
+      shownEvents: [],
     }
   },
   methods: {
@@ -76,7 +83,7 @@ export default {
       
       res = await this.getRequest(`/events/?owner=${this.id}`);
       if (res.ok) {
-        this.events = await res.json();
+        this.shownEvents = this.events = await res.json();
       }
 
       res = await this.postRequest('/users/verify', null, true);
@@ -89,6 +96,15 @@ export default {
 
       this.loading = false;
     },
+    toggleEvents() {
+      this.showEvents = !this.showEvents;
+
+      if (this.showEvents) {
+        this.shownEvents = this.events;
+      } else {
+        this.shownEvents = [];
+      }
+    }
   }
 }
 </script>
@@ -105,5 +121,12 @@ export default {
 h1, h2, h3, h4, p, li {
   color: white;
   font-family: 'Open Sans', sans-serif;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 </style>
