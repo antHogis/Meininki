@@ -5,8 +5,8 @@
     </div>
     <div id="nav">
       <router-link to="/" exact><i class="fas fa-home"></i> Home</router-link>
-      <router-link to="/event/submit">Submit</router-link>
       <template v-if="user">
+        <router-link to="/event/submit">Submit</router-link>
         <router-link :to="profile">Profile</router-link>
       </template>
       <template v-else>
