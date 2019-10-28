@@ -7,6 +7,7 @@
       <router-link to="/" exact><i class="fas fa-home"></i> Home</router-link>
       <router-link to="/event/submit">Submit</router-link>
       <template v-if="user">
+        <router-link :to="profile">Profile</router-link>
       </template>
       <template v-else>
         <router-link :to="{ name: 'logIn' }">Log In</router-link>
@@ -31,7 +32,8 @@ export default {
   },
   data() {
     return {
-      user: null
+      user: null,
+      profile: null,
     }
   },
   methods: {
@@ -39,7 +41,14 @@ export default {
       let res = await this.postRequest('/users/verify', null, true);
 
       if (res.ok) {
-        this.user = await res.json();
+        let user = await res.json();
+        this.profile = {
+          name: 'profile',
+          params: {
+            id: user._id
+          }
+        };
+        this.user = user;
       } else {
         console.log(await res.json());
       }

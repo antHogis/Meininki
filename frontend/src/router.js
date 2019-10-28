@@ -31,6 +31,12 @@ export default new Router({
       path: '/login',
       name: 'logIn',
       component: () => import('./views/LogIn.vue')
+    },
+    {
+      path: '/profile/:id(.{24})',
+      name: 'profile',
+      component: () => import('./views/Profile.vue'),
+      props: true
     }
   ],
   scrollBehavior (to, from, savedPosition) {
