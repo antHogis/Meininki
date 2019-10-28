@@ -41,6 +41,23 @@ export default {
       }
 
       return fetch(backendUrl + route, options);
+    },
+    putRequest(route, body, token = false) {
+      let options = {
+        ...defaultOptions,
+        method: 'PUT'
+      }
+
+      if (body) {
+        options['body'] = JSON.stringify(body);
+      }
+
+      if (token === true) {
+        token = Cookies.get('auth-token');
+        options.headers['auth-token'] = token;
+      }
+
+      return fetch(backendUrl + route, options);
     }
   }
 }
