@@ -33,6 +33,22 @@ async function validateLogin(loginData) {
   return await loginSchema.validateAsync(loginData, { abortEarly: false });
 }
 
+async function validateUserUpdate(userData, oldUserData) {
+  const userSchema = Joi.object({
+    email: emailValidation,
+    oldEmail: emailValidation.valid(oldUserData.email),
+    name: nameValidation,
+    oldName: nameValidation.valid(oldUserData.name),
+    password: passwordValidation,
+    oldPassword: passwordValidation
+  })
+    .with('email', 'oldEmail')
+    .with('name, oldName')
+    .with('password', 'oldPassword');
+  
+  return await userSchema(userData, { abortEarly: false });
+}
+
 async function validateEventQueryParams(queryData) {
   const querySchema = Joi.object({
     owner: Joi.string()
@@ -86,5 +102,6 @@ module.exports = {
   validateLogin,
   validateEventQueryParams,
   validateEvent,
-  getJoiValidationErrors
+  getJoiValidationErrors,
+  validateUserUpdate
 }
