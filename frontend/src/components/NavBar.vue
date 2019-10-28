@@ -50,6 +50,7 @@ export default {
         };
         this.user = user;
       } else {
+        this.user = null;
         console.log(await res.json());
       }
     }
