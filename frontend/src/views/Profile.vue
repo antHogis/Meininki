@@ -23,9 +23,11 @@
       </template>
 
       <template v-if="owner">
+        <h1>My Profile</h1>
+        <button v-on:click="signOut">
+          Sign out
+        </button>
         <h2>Update profile</h2>
-        
-
       </template>
     </template> 
   </div>
@@ -35,6 +37,7 @@
 import Loading from '../components/Loading';
 import ApiRequests from '../mixins/ApiRequests';
 import EventPreview from '../components/EventPreview';
+import Cookies from 'js-cookie';
 
 export default {
   name: 'Profile',
@@ -104,6 +107,11 @@ export default {
       } else {
         this.shownEvents = [];
       }
+    },
+    signOut() {
+      Cookies.remove('auth-token', { path: '/' });
+      this.$emit('check-login');
+      this.$router.push({ name: 'home' });
     }
   }
 }
