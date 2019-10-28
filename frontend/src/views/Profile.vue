@@ -3,8 +3,8 @@
     <template v-if="loading">
       <Loading />
     </template>
-    <template v-else-if="error">
-      <h1>{{ error }}</h1>
+    <template v-else-if="initialError">
+      <h1>{{ initialError }}</h1>
     </template>
     <template v-else>
       <h1>{{ user.name }}</h1>
@@ -27,7 +27,57 @@
         <button v-on:click="signOut">
           Sign out
         </button>
+
         <h2>Update profile</h2>
+
+        <h3>Name</h3>
+        <label>New </label>
+        <input 
+          type="text" 
+          v-model="newUserData.name"
+          placeholde="Choose new username"
+        >
+        <label> Old </label>
+        <input 
+          type="text" 
+          v-model="newUserData.oldName"
+          placeholde="Verify old username"
+        >
+        <h4> {{ getErrorByField('name') }} </h4>
+
+        <h3>Email address</h3>
+        <label>New </label>
+        <input 
+          type="email" 
+          v-model="newUserData.email"
+          placeholder="Choose new email address"
+        >
+        <label> Old </label>
+        <input 
+          type="email" 
+          v-model="newUserData.oldEmail"
+          placeholder="Verify old email address"
+        >
+        <h4> {{ getErrorByField('email') }} </h4>
+
+        <h3>Password</h3>
+        <label>New </label>
+        <input 
+          type="password" 
+          v-model="newUserData.password"
+          placeholder="Choose new password"
+        >
+        <label> Old </label>
+        <input 
+          type="password" 
+          v-model="newUserData.oldPassword"
+          placeholder="Verify old password"
+        >
+        <h4> {{ getErrorByField('password') }} </h4>
+
+        <br/><br/>
+        <input type="submit" v-on:click="updateUser">
+        <h2> {{ updated }} </h2>
       </template>
     </template> 
   </div>
@@ -35,7 +85,7 @@
 
 <script>
 import Loading from '../components/Loading';
-import ApiRequests from '../mixins/ApiRequests';
+import Form from '../mixins/Form';
 import EventPreview from '../components/EventPreview';
 import Cookies from 'js-cookie';
 
@@ -49,7 +99,7 @@ export default {
     EventPreview,
   },
   mixins: [
-    ApiRequests,
+    Form,
   ],
   created() {
     this.fetchData();
@@ -60,9 +110,19 @@ export default {
       user: null,
       loading: true,
       events: [],
-      error: '',
+      initialError: '',
+      error: null,
       showEvents: true,
       shownEvents: [],
+      newUserData: {
+        name: '',
+        oldName: '',
+        email: '',
+        oldEmail: '',
+        password: '',
+        oldPassword: ''
+      },
+      updated: '',
     }
   },
   methods: {
@@ -73,10 +133,10 @@ export default {
       } else {
         switch (res.status) {
           case 404:
-            this.error = 'User not found'
+            this.initialError = 'User not found'
             break;
           default:
-            this.error = 'Unexpected error';
+            this.initialError = 'Unexpected error';
             break;
         }
 
@@ -112,7 +172,25 @@ export default {
       Cookies.remove('auth-token', { path: '/' });
       this.$emit('check-login');
       this.$router.push({ name: 'home' });
-    }
+    },
+    async updateUser() {
+      this.updated = '';
+      let user = {};
+
+      for (let key of Object.keys(this.newUserData)) {
+        console.log(key)
+        if (this.newUserData[key] !== '') {
+          user[key] = this.newUserData[key];
+        }
+      }
+
+      let res = await this.putRequest('/users/update', user, true);
+      if (res.ok) {
+        this.updated = 'Profile updated!'
+      } else {
+        this.error = await res.json();
+      }
+    },
   }
 }
 </script>
@@ -126,7 +204,7 @@ export default {
   overflow: auto;
 }
 
-h1, h2, h3, h4, p, li {
+h1, h2, h3, h4, p, li, label {
   color: white;
   font-family: 'Open Sans', sans-serif;
 }
