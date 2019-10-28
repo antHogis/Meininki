@@ -86,6 +86,8 @@
 
 <script>
 import { backendUrl } from '../urls';
+import router from '../router';
+import Form from '../mixins/Form';
 
 export default {
     name: 'EventSubmitter',
@@ -104,6 +106,12 @@ export default {
         price: '',
         purchaseLink: ''
       }
+    },
+    mixins: [
+      Form
+    ],
+    created() {
+      this.verifyLogin();
     },
     methods: {
       submit(event) {
@@ -202,6 +210,12 @@ export default {
         this.imageUrl = '',
         this.price = '',
         this.purchaseLink = ''
+      },
+      async verifyLogin() {
+        let res = await this.postRequest('/users/verify', null, true);
+        if (!res.ok) {
+          router.push({ name: 'logIn' });
+        }
       }
     }
 }
