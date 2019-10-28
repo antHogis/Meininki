@@ -1,7 +1,7 @@
 <template>
     <div id="app">
-        <NavBar v-bind:title="title"/>
-        <router-view class="content"/>
+        <NavBar v-bind:title="title" ref="navBar"/>
+        <router-view class="content" v-on:check-login="onCheckLogin"/>
     </div>
 </template>
 
@@ -14,6 +14,11 @@ export default {
     data() {
         return {
         title: 'meininki',
+        }
+    },
+    methods: {
+        onCheckLogin() {
+            this.$refs.navBar.checkLogin();
         }
     }
 }
